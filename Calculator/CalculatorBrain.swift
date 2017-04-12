@@ -12,6 +12,7 @@ import Foundation
 struct CalculatorBrain {
     
     private var accumulator: Double?
+    private var pendingBinaryOperation: PendingBinaryOperation?
     
     private enum Operation {
         case constant(Double)
@@ -33,6 +34,17 @@ struct CalculatorBrain {
         "/" : Operation.binaryOperation({$0 / $1}),
         "=" : Operation.equals
     ]
+    
+    var result: Double? {
+        get {
+            return accumulator
+        }
+    }
+
+    
+    mutating func setOperand(_ operand: Double){
+        accumulator = operand
+    }
     
     mutating func performOperation(_ symbol: String){
         if let operation = operations[symbol] {
@@ -61,19 +73,7 @@ struct CalculatorBrain {
             pendingBinaryOperation = nil
         }
     }
-    
-    mutating func setOperand(_ operand: Double){
-        accumulator = operand
-    }
-    
-    var result: Double? {
-        get {
-          return accumulator
-        }
-    }
-    
-    private var pendingBinaryOperation: PendingBinaryOperation?
-    
+
     private struct PendingBinaryOperation {
         let function : (Double, Double) -> Double
         let firstOperand: Double

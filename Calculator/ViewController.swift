@@ -12,9 +12,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var display: UILabel!
     
-    var userIsInMiddleOfTying = false
+    private var userIsInMiddleOfTying = false
     
-    var displayValue: Double{
+    private var displayValue: Double{
         get {
             return Double(display.text!)!
         }
