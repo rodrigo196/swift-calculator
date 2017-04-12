@@ -22,6 +22,8 @@ class ViewController: UIViewController {
             display.text = String(newValue)
         }
     }
+    
+    private var brain = CalculatorBrain()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,16 +47,15 @@ class ViewController: UIViewController {
     }
     
     @IBAction func performOperation(_ sender: UIButton) {
-        userIsInMiddleOfTying = false
+        if userIsInMiddleOfTying {
+            brain.setOperand(displayValue)
+            userIsInMiddleOfTying = false
+        }
         if let mathemathicalOperation = sender.currentTitle {
-            switch mathemathicalOperation {
-            case "π":
-                displayValue = Double.pi
-            case "√":
-                displayValue = sqrt(displayValue)
-            default:
-                break
-            }
+                brain.performOperation(mathemathicalOperation)
+        }
+        if let result = brain.result {
+            displayValue = result
         }
     }
 }
