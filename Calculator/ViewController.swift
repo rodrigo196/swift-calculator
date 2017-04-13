@@ -12,6 +12,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var display: UILabel!
     
+    @IBOutlet weak var operationDescription: UILabel!
+    
     private var userIsInMiddleOfTying = false
     
     private var displayValue: Double{
@@ -38,8 +40,13 @@ class ViewController: UIViewController {
     @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInMiddleOfTying {
+            
             let textCurrentlyInDisplay = display.text!
-            display.text = textCurrentlyInDisplay + digit
+            
+            if digit != "." || !textCurrentlyInDisplay.contains(digit){
+                display.text = textCurrentlyInDisplay + digit
+            }
+            
         } else {
             display.text = digit
             userIsInMiddleOfTying = true
@@ -51,9 +58,11 @@ class ViewController: UIViewController {
             brain.setOperand(displayValue)
             userIsInMiddleOfTying = false
         }
+        
         if let mathemathicalOperation = sender.currentTitle {
                 brain.performOperation(mathemathicalOperation)
         }
+        
         if let result = brain.result {
             displayValue = result
         }
